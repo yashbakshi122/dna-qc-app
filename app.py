@@ -7,6 +7,28 @@ st.set_page_config(page_title="FASTA QC Reporter", layout="wide")
 
 VALID = set("ATGCN")  # allow N for industry FASTA
 DNA_ONLY = set("ATGC")
+st.title("Yash Bakshi’s FASTA QC Reporter")
+
+st.markdown("### Paste FASTA (mobile users)")
+fasta_text = st.text_area(
+    "Paste FASTA here (recommended for phone users)",
+    height=200,
+    placeholder=">seq1\nATGCGTATATAGCG...\n>seq2\nTTGCA..."
+)
+
+st.markdown("### OR upload FASTA file")
+uploaded_file = st.file_uploader(
+    "Upload FASTA (.fasta / .fa / .txt)",
+    type=["fasta", "fa", "txt"]
+)
+
+if fasta_text.strip():
+    fasta_input = fasta_text
+elif uploaded_file is not None:
+    fasta_input = uploaded_file.getvalue().decode("utf-8", errors="ignore")
+else:
+    st.info("Paste FASTA text OR upload a file to continue.")
+    st.stop()
 
 def clean(seq: str) -> str:
     return "".join(seq.upper().split())
@@ -174,5 +196,6 @@ csv_bytes = df.to_csv(index=False).encode("utf-8")
 st.download_button("⬇️ Download qc_report.csv", data=csv_bytes, file_name="qc_report.csv", mime="text/csv")
 
 st.caption("Tip: This QC report is designed like a preprocessing step used in real bioinformatics pipelines.")
+
 
 
