@@ -67,7 +67,8 @@ def longest_homopolymer(seq: str) -> int:
 def md5_hash(seq: str) -> str:
     return hashlib.md5(seq.encode("utf-8")).hexdigest()
 
-st.title("🧪 FASTA QC Reporter (Industry-style)")
+st.title("🧬 Yash Bakshi’s FASTA QC Reporter")
+
 
 st.write(
     "Upload a FASTA file and get a QC report: validation, GC%, complexity flags, duplicates, and downloadable CSV."
@@ -173,4 +174,5 @@ csv_bytes = df.to_csv(index=False).encode("utf-8")
 st.download_button("⬇️ Download qc_report.csv", data=csv_bytes, file_name="qc_report.csv", mime="text/csv")
 
 st.caption("Tip: This QC report is designed like a preprocessing step used in real bioinformatics pipelines.")
+
 
